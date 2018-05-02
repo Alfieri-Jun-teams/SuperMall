@@ -4,9 +4,9 @@ const knex = expressKnex({
   client: 'mysql',
   connection: {
     host: '106.15.230.136',
-    user: 'aj_dev',
+    user: 'super',
     password: 'zhazhahui',
-    database: 'aj'
+    database: 'supermall'
   }
 })
 
