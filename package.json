@@ -1,0 +1,34 @@
+{
+  "name": "SuperMall",
+  "version": "1.0.0",
+  "description": "node.js super mall.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js --exec babel-node --presets es2015,stage-2",
+    "lint": "standard",
+    "db:migrate": "node ./migrations/user.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "knex"
+  ],
+  "author": "AlfieriChou",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "nodemon": "^1.12.1"
+  },
+  "dependencies": {
+    "express": "^4.16.2",
+    "joi": "^13.1.2",
+    "knex": "^0.14.4",
+    "lodash": "^4.17.5",
+    "log4js": "^2.5.3",
+    "morgan": "^1.9.0",
+    "node-xlsx": "^0.12.0",
+    "nodemon": "^1.12.1",
+    "swagger-ui-express": "^3.0.6"
+  }
+}

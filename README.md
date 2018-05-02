@@ -1,2 +1,0 @@
-# SuperMall
-super mall
