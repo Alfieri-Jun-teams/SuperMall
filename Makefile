@@ -4,7 +4,7 @@ clean:
 	@echo "clean docker images..."
 	@docker ps -aqf status=exited | xargs docker rm && docker images -qf dangling=true | xargs docker rmi
 build:
-	@docker build -t knex .
+	@docker build -t super .
 rebuild:
 	@make clean
 	@make build
@@ -12,19 +12,20 @@ rebuild:
 #################################################
 
 start:
-	@docker run --name knex-app -d \
+	@docker run --name supermall -d \
 		-p 5000:5000 \
-		-d knex
+		-d super
+stop:
+	@docker stop supermall
 remove:
-	@docker rm -f knex-app
+	@docker rm -f supermall
 update:
 	@git checkout develop
 	@git pull
-	@docker restart knex-app
-restart:
+	@make stop
 	@make remove
 	@make start
-	@make update
-update-only-server:
-	@git pull
-	@docker restart knex-app
+restart:
+	@make stop
+	@make remove
+	@make start
