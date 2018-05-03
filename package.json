@@ -23,9 +23,11 @@
   "dependencies": {
     "express": "^4.16.2",
     "joi": "^13.1.2",
+    "jsonwebtoken": "^8.2.1",
     "knex": "^0.14.4",
     "lodash": "^4.17.5",
     "log4js": "^2.5.3",
+    "moment": "^2.22.1",
     "morgan": "^1.9.0",
     "mysql": "^2.15.0",
     "node-xlsx": "^0.12.0",
