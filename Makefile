@@ -13,7 +13,7 @@ rebuild:
 
 start:
 	@docker run --name supermall -d \
-		-p 5000:5000 \
+		-p 6000:6000 \
 		-d super
 stop:
 	@docker stop supermall
