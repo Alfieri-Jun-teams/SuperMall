@@ -2,7 +2,8 @@ import Joi from 'joi'
 
 const goods = Joi.object().keys({
 
-  goods_name: Joi.string().description('商品名称'),
+  serial: Joi.string().description('商品编号'),
+  name: Joi.string().description('商品名称'),
   price: Joi.number().description('价格'),
   description: Joi.string().description('商品描述'),
   created_at: Joi.date().description('创建时间'),
