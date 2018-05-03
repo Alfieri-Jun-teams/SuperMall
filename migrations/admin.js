@@ -10,3 +10,9 @@ knex.schema.hasTable('admin').then(exists => {
     })
   }
 })
+
+knex.schema.hasColumn('admin', 'name').then(exists => {
+  if (!exists) {
+    return knex.schema.table('admin', t => t.string('name').comment('用户名').after('id'))
+  }
+})

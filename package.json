@@ -21,6 +21,7 @@
     "nodemon": "^1.12.1"
   },
   "dependencies": {
+    "crypto-js": "^3.1.9-1",
     "express": "^4.16.2",
     "joi": "^13.1.2",
     "jsonwebtoken": "^8.2.1",
