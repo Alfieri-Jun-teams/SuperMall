@@ -12,3 +12,9 @@ knex.schema.hasTable('cart').then(exists => {
     })
   }
 })
+
+knex.schema.hasColumn('cart', 'user_id').then(exists => {
+  if (!exists) {
+    return knex.schema.table('cart', t => t.string('user_id').comment('关联用户id').after('goods_id'))
+  }
+})

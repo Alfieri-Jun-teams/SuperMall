@@ -1,5 +1,4 @@
 import express from 'express'
-
 import { search, createUser, getUser, putUser, delUser } from '../controller/user'
 
 const api = express.Router()
