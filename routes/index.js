@@ -3,6 +3,7 @@ import { search, createUser, getUser, putUser, delUser } from '../controller/use
 import { adminLogin } from '../controller/admin'
 import { createCart, getCart, putCart, destroyCart } from '../controller/cart'
 import { createGoods, getGoods, putGoods, destroyGoods } from '../controller/goods'
+import { createOrder, getOrder, putOrder } from '../controller/order'
 
 const api = express.Router()
 
@@ -24,10 +25,17 @@ api.route('/cart/:id').put(putCart)
 api.route('/cart/:id').delete(destroyCart)
 
 // 商品
-// api.route('/cart').get(search)
+// api.route('/goods').get(search)
 api.route('/goods').post(createGoods)
 api.route('/Goods/:id').get(getGoods)
 api.route('/Goods/:id').put(putGoods)
 api.route('/Goods/:id').delete(destroyGoods)
+
+// 订单
+// api.route('/order').get(search)
+api.route('/order').post(createOrder)
+api.route('/order/:id').get(getOrder)
+api.route('/order/:id').put(putOrder)
+// api.route('/order/:id').delete(destroyOrder)
 
 export default api
