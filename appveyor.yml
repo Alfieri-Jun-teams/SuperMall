@@ -15,6 +15,5 @@ shallow_clone: true
 test_script:
   - node --version
   - npm --version
-  - npm start
 cache:
   - '%APPDATA%\npm-cache'
