@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+# vue node_module
+./client/admin/node_modules/
+./client/app/node_modules/
