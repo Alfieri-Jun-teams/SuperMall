@@ -3,7 +3,7 @@ import { search, createUser, getUser, putUser, delUser } from '../controller/use
 import { adminLogin } from '../controller/admin'
 import { createCart, getCart, putCart, destroyCart } from '../controller/cart'
 import { createGoods, getGoods, putGoods, destroyGoods } from '../controller/goods'
-import { createOrder, getOrder, putOrder } from '../controller/order'
+import { createOrder, getOrder, putOrder, destroyOrder } from '../controller/order'
 
 const api = express.Router()
 
@@ -36,6 +36,6 @@ api.route('/Goods/:id').delete(destroyGoods)
 api.route('/order').post(createOrder)
 api.route('/order/:id').get(getOrder)
 api.route('/order/:id').put(putOrder)
-// api.route('/order/:id').delete(destroyOrder)
+api.route('/order/:id').delete(destroyOrder)
 
 export default api
