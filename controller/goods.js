@@ -1,5 +1,25 @@
 import { knex } from '../knex/mysql'
 import { returnClientResponse } from '../common/returnClientResponse'
+import { getSortSql } from '../common/sort'
+
+const searchGoods = async (req, res) => {
+  const params = req.query
+
+  const sql = await knex('goods').whereNull('deleted_at')
+
+  if (params.price) sql.where('price', params.price)
+  if (params.search) {
+    sql.where(function () {
+      this.where('goods.serial', 'like', `%${params.search}%`).orWhere('goods.name', 'like', `%${params.search}%`)
+    })
+  }
+
+  if (params.sort) getSortSql(sql, params.sort)
+
+  const data = await sql
+
+  res.json(returnClientResponse('查询成功', 1, data))
+}
 
 const createGoods = async (req, res) => {
   const params = req.body
@@ -52,6 +72,7 @@ const destroyGoods = async (req, res) => {
 }
 
 export {
+  searchGoods,
   createGoods,
   getGoods,
   putGoods,
