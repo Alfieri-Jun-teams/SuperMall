@@ -1,14 +1,14 @@
 import express from 'express'
-import { search, createUser, getUser, putUser, delUser } from '../controller/user'
+import { searchUser, createUser, getUser, putUser, delUser } from '../controller/user'
 import { adminLogin } from '../controller/admin'
 import { createCart, getCart, putCart, destroyCart } from '../controller/cart'
 import { createGoods, getGoods, putGoods, destroyGoods } from '../controller/goods'
-import { createOrder, getOrder, putOrder, destroyOrder } from '../controller/order'
+import { searchOrder, createOrder, getOrder, putOrder, destroyOrder } from '../controller/order'
 
 const api = express.Router()
 
 // 用户
-api.route('/users').get(search)
+api.route('/users').get(searchUser)
 api.route('/users').post(createUser)
 api.route('/users/:id').get(getUser)
 api.route('/users/:id').put(putUser)
@@ -32,7 +32,7 @@ api.route('/Goods/:id').put(putGoods)
 api.route('/Goods/:id').delete(destroyGoods)
 
 // 订单
-// api.route('/order').get(search)
+api.route('/order').get(searchOrder)
 api.route('/order').post(createOrder)
 api.route('/order/:id').get(getOrder)
 api.route('/order/:id').put(putOrder)

@@ -5,7 +5,7 @@ import { returnClientResponse } from '../common/returnClientResponse'
 
 import { logger } from '../common/log'
 
-const search = async (req, res) => {
+const searchUser = async (req, res) => {
   const params = req.query
   userValidate(params, user)
 
@@ -79,7 +79,7 @@ const delUser = async (req, res) => {
 }
 
 export {
-  search,
+  searchUser,
   createUser,
   getUser,
   putUser,
