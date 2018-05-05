@@ -67,9 +67,6 @@
                     },
                     "400": {
                         "description": "Invalid username supplied"
-                    },
-                    "404": {
-                        "description": "User not found"
                     }
                 }
             },
@@ -90,9 +87,6 @@
                 "responses": {
                     "400": {
                         "description": "Invalid user supplied"
-                    },
-                    "404": {
-                        "description": "User not found"
                     }
                 }
             },
@@ -113,9 +107,6 @@
                 "responses": {
                     "400": {
                         "description": "Invalid username supplied"
-                    },
-                    "404": {
-                        "description": "User not found"
                     }
                 }
             }
