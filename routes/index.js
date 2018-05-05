@@ -2,7 +2,7 @@ import express from 'express'
 import { searchUser, createUser, getUser, putUser, delUser } from '../controller/user'
 import { adminLogin } from '../controller/admin'
 import { searchCart, createCart, getCart, putCart, destroyCart } from '../controller/cart'
-import { createGoods, getGoods, putGoods, destroyGoods } from '../controller/goods'
+import { searchGoods, createGoods, getGoods, putGoods, destroyGoods } from '../controller/goods'
 import { searchOrder, createOrder, getOrder, putOrder, destroyOrder } from '../controller/order'
 
 const api = express.Router()
@@ -25,7 +25,7 @@ api.route('/cart/:id').put(putCart)
 api.route('/cart/:id').delete(destroyCart)
 
 // 商品
-// api.route('/goods').get(search)
+api.route('/goods').get(searchGoods)
 api.route('/goods').post(createGoods)
 api.route('/Goods/:id').get(getGoods)
 api.route('/Goods/:id').put(putGoods)

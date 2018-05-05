@@ -2,7 +2,6 @@ import { knex } from '../knex/mysql'
 import { user, userValidate } from '../models/user'
 import { getSortSql } from '../common/sort'
 import { returnClientResponse } from '../common/returnClientResponse'
-
 import { logger } from '../common/log'
 
 const searchUser = async (req, res) => {
