@@ -7,7 +7,7 @@
     "start": "nodemon server.js --exec babel-node --presets es2015,stage-2",
     "lint": "standard",
     "db:migrate": "node ./migrations/user.js&&node ./migrations/admin.js&&node ./migrations/goods.js&&node ./migrations/order.js&&node ./migrations/cart.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "keywords": [
     "knex"
@@ -19,9 +19,12 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "mocha": "^5.1.1",
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.12.1",
+    "should": "^13.2.1",
+    "supertest": "^3.0.0"
   },
   "dependencies": {
+    "assert": "^1.4.1",
     "crypto-js": "^3.1.9-1",
     "express": "^4.16.2",
     "joi": "^13.1.2",
