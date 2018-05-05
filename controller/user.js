@@ -10,7 +10,6 @@ const searchUser = async (req, res) => {
 
   const sql = await knex('users').whereNull('deleted_at')
   if (params.phone) sql.where('users.phone', params.phone)
-  if (params.password) sql.where('users.password', params.password)
 
   if (params.sort) getSortSql(sql, params.sort)
 
