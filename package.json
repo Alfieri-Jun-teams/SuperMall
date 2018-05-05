@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server.js --exec babel-node --presets es2015,stage-2",
     "lint": "standard",
-    "db:migrate": "node ./migrations/user.js&&node ./migrations/admin.js&&node ./migrations/goods.js&&node ./migrations/order.js&&node ./migrations/cart.js",
+    "db:migrate": "node ./migrations/migrate.js",
     "test": "./node_modules/mocha/bin/mocha"
   },
   "keywords": [
