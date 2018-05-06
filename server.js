@@ -6,6 +6,12 @@ import swaggerUi from 'swagger-ui-express'
 import swaggerDocument from './swagger.json'
 import routes from './routes/index'
 import { knex } from './knex/mysql'
+import session from 'express-session'
+import cookieParser from 'cookie-parser'
+import conRedis from 'connect-redis'
+import { redis, secret } from './config'
+
+const RedisStore = conRedis(session)
 
 global._ = require('lodash')
 
@@ -29,6 +35,19 @@ app.use(morgan('dev'))
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 
 app.use(express.static('./public'))
+
+app.use(cookieParser(secret))
+app.use(session({
+  store: new RedisStore({
+    host: redis.host,
+    port: redis.port,
+    pass: redis.password
+  }),
+  cookie: { maxAge: 7 * 60 * 60 * 1000 },
+  resave: true,
+  saveUninitialized: true,
+  secret: secret
+}))
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')

@@ -17,9 +17,10 @@ const createToken = phone => {
 const login = async (req, res) => {
   const params = req.body
   const compare = Base64.stringify(SHA256(params.password))
-  const user = await knex('admin').where('phone', params.phone).first()
-  if (user.password === compare) {
-    res.json(returnClientResponse('用户验证成功', 1, createToken(user.phone)))
+  const account = await knex('account').where('phone', params.phone).first()
+  if (account.password === compare) {
+    req.session.account = account
+    res.json(returnClientResponse('用户验证成功', 1, createToken(account.phone)))
   }
   res.status(400).send(returnClientResponse('用户验证失败', '0'))
 }
