@@ -1,9 +1,9 @@
 const knex = require('./setting')
 
 const migrateAccount = () => {
-  knex.schema.hasTable('admin').then(exists => {
+  knex.schema.hasTable('account').then(exists => {
     if (!exists) {
-      return knex.schema.createTable('admin', t => {
+      return knex.schema.createTable('account', t => {
         t.increments()
         t.string('phone', 11).comment('手机号')
         t.string('user_type').comment('用户类型')
