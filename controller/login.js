@@ -20,9 +20,9 @@ const login = async (req, res) => {
   const account = await knex('account').where('phone', params.phone).first()
   if (account.password === compare) {
     req.session.account = account
-    res.json(returnClientResponse('用户验证成功', 1, createToken(account.phone)))
+    return res.status(200).send(returnClientResponse('用户验证成功', 1, createToken(account.phone)))
   }
-  res.status(400).send(returnClientResponse('用户验证失败', '0'))
+  return res.status(400).send(returnClientResponse('用户验证失败', '0'))
 }
 
 export {
