@@ -1,6 +1,6 @@
 import express from 'express'
 import { searchUser, createUser, getUser, putUser, delUser } from '../controller/user'
-import { adminLogin } from '../controller/admin'
+import { login } from '../controller/login'
 import { searchCart, createCart, getCart, putCart, destroyCart } from '../controller/cart'
 import { searchGoods, createGoods, getGoods, putGoods, destroyGoods } from '../controller/goods'
 import { searchOrder, createOrder, getOrder, putOrder, destroyOrder } from '../controller/order'
@@ -15,7 +15,7 @@ api.route('/users/:id').put(putUser)
 api.route('/users/:id').delete(delUser)
 
 // 管理员登录
-api.route('/admin/login').post(adminLogin)
+api.route('/account/login').post(login)
 
 // 购物车
 api.route('/cart').get(searchCart)
