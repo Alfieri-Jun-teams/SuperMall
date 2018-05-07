@@ -24,6 +24,12 @@ const searchGoods = async (req, res) => {
 }
 
 const createGoods = async (req, res) => {
+  if (!req.session) {
+    return res.status(400).send(returnClientResponse('请登录', 0))
+  }
+  if (req.session && req.session.account.user_type !== 'admin') {
+    return res.status(400).send(returnClientResponse('不好意思，您没有权限添加', 0))
+  }
   const params = req.body
   validate(goods, params)
   const findGoods = await knex('goods').where('serial', params.serial).whereNull('deleted_at').first()
@@ -49,6 +55,12 @@ const getGoods = async (req, res) => {
 }
 
 const putGoods = async (req, res) => {
+  if (!req.session) {
+    return res.status(400).send(returnClientResponse('请登录', 0))
+  }
+  if (req.session && req.session.account.user_type !== 'admin') {
+    return res.status(400).send(returnClientResponse('不好意思，您没有权限添加', 0))
+  }
   const params = Object.assign(req.params, req.body)
   const goods = await knex('goods').where('id', params.id).whereNull('deleted_at').first()
 
@@ -63,6 +75,12 @@ const putGoods = async (req, res) => {
 }
 
 const destroyGoods = async (req, res) => {
+  if (!req.session) {
+    return res.status(400).send(returnClientResponse('请登录', 0))
+  }
+  if (req.session && req.session.account.user_type !== 'admin') {
+    return res.status(400).send(returnClientResponse('不好意思，您没有权限添加', 0))
+  }
   const id = req.params.id
   const goods = await knex('goods').where('id', id).whereNull('deleted_at').first()
 
