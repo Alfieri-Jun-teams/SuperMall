@@ -2,6 +2,8 @@ import { knex } from '../knex/mysql'
 import { returnClientResponse } from '../common/returnClientResponse'
 import { logger } from '../common/log'
 import { getSortSql } from '../common/sort'
+import { order } from '../models/order'
+import validate from 'express-validation'
 
 const searchOrder = async (req, res) => {
   const params = req.query
@@ -34,6 +36,7 @@ const searchOrder = async (req, res) => {
 
 const createOrder = async (req, res) => {
   const params = req.body
+  validate(order, params)
   const [id] = await knex('order').insert(params)
 
   params.id = id

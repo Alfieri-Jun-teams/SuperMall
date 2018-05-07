@@ -1,6 +1,8 @@
 import { knex } from '../knex/mysql'
 import { returnClientResponse } from '../common/returnClientResponse'
 import { getSortSql } from '../common/sort'
+import { cart } from '../models/cart'
+import validate from 'express-validation'
 
 const searchCart = async (req, res) => {
   const params = req.query
@@ -31,17 +33,18 @@ const searchCart = async (req, res) => {
 
 const createCart = async (req, res) => {
   const params = req.body
+  validate(cart, params)
 
   if (params.amount === 0) {
     return res.status(400).send(returnClientResponse('商品数目不能为零', 0))
   }
 
-  const cart = await knex('cart').where({
+  const findCart = await knex('cart').where({
     user_id: params.user_id,
     goods_id: params.goods_id
   }).whereNull('deleted_at')
 
-  if (!cart) {
+  if (!findCart) {
     const [id] = await knex('cart').insert(params)
     params.id = id
   }

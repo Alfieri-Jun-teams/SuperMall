@@ -1,12 +1,12 @@
 import { knex } from '../knex/mysql'
-import { user, userValidate } from '../models/user'
+import { user } from '../models/user'
 import { getSortSql } from '../common/sort'
 import { returnClientResponse } from '../common/returnClientResponse'
 import { logger } from '../common/log'
+import validate from 'express-validation'
 
 const searchUser = async (req, res) => {
   const params = req.query
-  userValidate(params, user)
 
   const sql = await knex('users').whereNull('deleted_at')
   if (params.phone) sql.where('users.phone', params.phone)
@@ -21,7 +21,7 @@ const searchUser = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const params = req.body
-    userValidate(params, user)
+    validate(user, params)
 
     const exist = await knex('users').where({phone: params.phone}).whereNull('deleted_at').first()
     if (exist) {

@@ -1,6 +1,8 @@
 import { knex } from '../knex/mysql'
 import { returnClientResponse } from '../common/returnClientResponse'
 import { getSortSql } from '../common/sort'
+import { goods } from '../models/goods'
+import validate from 'express-validation'
 
 const searchGoods = async (req, res) => {
   const params = req.query
@@ -23,9 +25,10 @@ const searchGoods = async (req, res) => {
 
 const createGoods = async (req, res) => {
   const params = req.body
-  const goods = await knex('goods').where('serial', params.serial).whereNull('deleted_at').first()
+  validate(goods, params)
+  const findGoods = await knex('goods').where('serial', params.serial).whereNull('deleted_at').first()
 
-  if (goods) {
+  if (findGoods) {
     return res.status(400).send(returnClientResponse('该编号商品已存在', 0))
   }
 

@@ -2,9 +2,9 @@ import Joi from 'joi'
 
 const order = Joi.object().keys({
 
-  goods_id: Joi.string().description('关联商品id'),
-  user_id: Joi.string().description('关联用户id'),
-  amount: Joi.number().description('数量'),
+  goods_id: Joi.string().description('关联商品id').required(),
+  user_id: Joi.string().description('关联用户id').required(),
+  amount: Joi.number().description('数量').required(),
   is_fahuo: Joi.number().valid(0, 1).description('是否发货 0-默认 1-发货'),
   express_name: Joi.string().description('快递名称'),
   express_serial: Joi.string().description('快递单号'),
