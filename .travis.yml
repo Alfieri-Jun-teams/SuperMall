@@ -1,0 +1,11 @@
+sudo: false
+language: node_js
+node_js:
+  - '8'
+install:
+  - npm i npminstall && npminstall
+script:
+- npm start
+branches:
+  only:
+    - master
