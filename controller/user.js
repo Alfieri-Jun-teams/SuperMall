@@ -2,8 +2,9 @@ import { knex } from '../knex/mysql'
 import { user } from '../models/user'
 import { getSortSql } from '../common/sort'
 import { returnClientResponse } from '../common/returnClientResponse'
-import { logger } from '../common/log'
+// import { logger } from '../common/log'
 import validate from 'express-validation'
+import { userLogger } from '../common/tracerlog'
 
 const searchUser = async (req, res) => {
   const params = req.query
@@ -31,10 +32,10 @@ const createUser = async (req, res) => {
     const [id] = await knex('users').insert(params)
     params.id = id
 
-    logger.info({time: new Date(), userInfo: params, message: '用户创建成功'})
+    userLogger.info({userInfo: params, message: '用户创建成功'})
     res.json(returnClientResponse('用户创建成功', 1, params))
   } catch (err) {
-    logger.error({time: new Date(), message: '用户创建错误', err})
+    userLogger.error({message: '用户创建错误', err})
     return res.status(500).send(returnClientResponse('服务端错误', 0))
   }
 }

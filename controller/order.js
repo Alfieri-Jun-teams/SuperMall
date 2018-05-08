@@ -1,9 +1,10 @@
 import { knex } from '../knex/mysql'
 import { returnClientResponse } from '../common/returnClientResponse'
-import { logger } from '../common/log'
+// import { logger } from '../common/log'
 import { getSortSql } from '../common/sort'
 import { order } from '../models/order'
 import validate from 'express-validation'
+import { orderLogger } from '../common/tracerlog'
 
 const searchOrder = async (req, res) => {
   const params = req.query
@@ -40,7 +41,7 @@ const createOrder = async (req, res) => {
   const [id] = await knex('order').insert(params)
 
   params.id = id
-  logger.info({time: new Date(), orderInfo: params, message: '下单成功'})
+  orderLogger.info({time: new Date(), orderInfo: params, message: '下单成功'})
   res.json(returnClientResponse('订单创建成功', 1, params))
 }
 
