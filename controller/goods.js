@@ -3,7 +3,7 @@ import { returnClientResponse } from '../common/returnClientResponse'
 import { getSortSql } from '../common/sort'
 import { goods } from '../models/goods'
 import validate from 'express-validation'
-
+import { goodsLogger } from '../common/tracerlog'
 const searchGoods = async (req, res) => {
   const params = req.query
 
@@ -40,6 +40,7 @@ const createGoods = async (req, res) => {
 
   const [id] = await knex('goods').insert(params)
   params.id = id
+  goodsLogger.info({goodsInfo: params, message: '商品添加成功'})
   res.json(returnClientResponse('商品新增成功', 1, params))
 }
 
