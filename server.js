@@ -43,7 +43,7 @@ app.use(session({
     port: redis.port,
     pass: redis.password
   }),
-  cookie: { maxAge: 7 * 60 * 60 * 1000 },
+  cookie: { maxAge: 24 * 60 * 60 * 1000 },
   resave: true,
   saveUninitialized: true,
   secret: secret

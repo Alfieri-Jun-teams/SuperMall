@@ -1,4 +1,4 @@
-const returnClientResponse = (message, success, result) => {
+const Response = (message, success, result) => {
   const data = {
     message: message,
     success: success,
@@ -9,5 +9,5 @@ const returnClientResponse = (message, success, result) => {
 }
 
 export {
-  returnClientResponse
+  Response
 }
