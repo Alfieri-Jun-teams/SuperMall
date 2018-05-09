@@ -18,9 +18,7 @@ const createToken = (phone, password) => {
 const login = async (req, res) => {
   const params = req.body
   const saltPassword = firstSecret + params.password + lastSecret
-  console.log(saltPassword)
   const compare = Base64.stringify(SHA256(saltPassword))
-  console.log(compare)
   const account = await knex('account').where('phone', params.phone).first()
   if (account.password === compare) {
     loginLogger.log(params.phone + '登录成功')
