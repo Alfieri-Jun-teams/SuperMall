@@ -11,10 +11,12 @@ const redis = {
   password: 'alfieri'
 }
 
-const secret = 'e3dc0f7f72189250b1615099ef90131aa1ce6ba0fcf323cd9d9d0b9ef1a30647'
+const lastSecret = 'a093d64d01'
+const firstSecret = 'e069e5c994'
 
 export {
   db,
   redis,
-  secret
+  lastSecret,
+  firstSecret
 }

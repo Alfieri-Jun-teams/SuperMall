@@ -9,7 +9,7 @@ import { knex } from './knex/mysql'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import conRedis from 'connect-redis'
-import { redis, secret } from './config'
+import { redis, firstSecret } from './config'
 
 const RedisStore = conRedis(session)
 
@@ -36,7 +36,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 
 app.use(express.static('./public'))
 
-app.use(cookieParser(secret))
+app.use(cookieParser(firstSecret))
 app.use(session({
   store: new RedisStore({
     host: redis.host,
@@ -46,7 +46,7 @@ app.use(session({
   cookie: { maxAge: 24 * 60 * 60 * 1000 },
   resave: true,
   saveUninitialized: true,
-  secret: secret
+  secret: firstSecret
 }))
 
 app.use((req, res, next) => {
