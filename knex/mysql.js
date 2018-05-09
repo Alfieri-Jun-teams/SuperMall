@@ -1,8 +1,7 @@
-import expressKnex from 'knex'
 // import mysql from 'mysql'
 import { db } from '../config'
 
-const knex = expressKnex({
+const knex = require('knex')({
   client: 'mysql',
   connection: {
     host: db.host,
