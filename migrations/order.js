@@ -1,5 +1,7 @@
 const knex = require('./setting')
 
+console.log('order migrate start')
+
 knex.schema.hasTable('order').then(exists => {
   if (!exists) {
     return knex.schema.createTable('order', t => {
@@ -17,3 +19,6 @@ knex.schema.hasTable('order').then(exists => {
     })
   }
 })
+
+console.log('order migrate end')
+process.exit()

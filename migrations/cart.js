@@ -1,5 +1,7 @@
 const knex = require('./setting')
 
+console.log('cart migrate start')
+
 knex.schema.hasTable('cart').then(exists => {
   if (!exists) {
     return knex.schema.createTable('cart', t => {
@@ -25,3 +27,6 @@ knex.schema.hasColumn('cart', 'deleted_at').then(exists => {
     return knex.schema.table('cart', t => t.date('deleted_at').comment('逻辑删除时间').after('updated_at'))
   }
 })
+
+console.log('cart migrate end')
+process.exit()

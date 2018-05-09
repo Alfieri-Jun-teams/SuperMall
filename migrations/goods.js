@@ -1,5 +1,7 @@
 const knex = require('./setting')
 
+console.log('goods migrate start')
+
 knex.schema.hasTable('goods').then(exists => {
   if (!exists) {
     return knex.schema.createTable('goods', t => {
@@ -20,3 +22,6 @@ knex.schema.hasColumn('goods', 'serial').then(exists => {
     return knex.schema.table('goods', t => t.string('serial').comment('商品编号').after('id'))
   }
 })
+
+console.log('goods migrate end')
+process.exit()

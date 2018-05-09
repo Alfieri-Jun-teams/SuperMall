@@ -1,5 +1,7 @@
 const knex = require('./setting')
 
+console.log('account migrate start')
+
 knex.schema.hasTable('account').then(exists => {
   if (!exists) {
     return knex.schema.createTable('account', t => {
@@ -22,3 +24,6 @@ knex.schema.hasColumn('account', 'user_id').then(exists => {
     return knex.schema.table('account', t => t.integer('user_id').comment('关联用户id').after('phone'))
   }
 })
+
+console.log('account migrate end')
+process.exit()

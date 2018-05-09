@@ -1,5 +1,7 @@
 const knex = require('./setting')
 
+console.log('admin migrate start')
+
 knex.schema.hasTable('admin').then(exists => {
   if (!exists) {
     return knex.schema.createTable('admin', t => {
@@ -15,3 +17,6 @@ knex.schema.hasColumn('admin', 'name').then(exists => {
     return knex.schema.table('admin', t => t.string('name').comment('用户名').after('id'))
   }
 })
+
+console.log('admin migrate end')
+process.exit()
