@@ -24,7 +24,7 @@ const searchGoods = async (req, res) => {
 }
 
 const createGoods = async (req, res) => {
-  if (!req.session) {
+  if (!req.session.account.user_type) {
     return res.status(400).send(returnClientResponse('请登录', 0))
   }
   if (req.session && req.session.account.user_type !== 'admin') {
