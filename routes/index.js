@@ -1,4 +1,5 @@
 import express from 'express'
+import { adminRole } from '../common/role'
 import { searchUser, createUser, getUser, putUser, delUser } from '../controller/user'
 import { login } from '../controller/login'
 import { searchCart, createCart, getCart, putCart, destroyCart } from '../controller/cart'
@@ -25,11 +26,11 @@ api.route('/cart/:id').put(putCart)
 api.route('/cart/:id').delete(destroyCart)
 
 // 商品 (需要管理员权限)
-api.route('/goods').get(searchGoods)
-api.route('/goods').post(createGoods)
-api.route('/Goods/:id').get(getGoods)
-api.route('/Goods/:id').put(putGoods)
-api.route('/Goods/:id').delete(destroyGoods)
+api.route('/goods').get(adminRole, searchGoods)
+api.route('/goods').post(adminRole, createGoods)
+api.route('/Goods/:id').get(adminRole, getGoods)
+api.route('/Goods/:id').put(adminRole, putGoods)
+api.route('/Goods/:id').delete(adminRole, destroyGoods)
 
 // 订单
 api.route('/order').get(searchOrder)
