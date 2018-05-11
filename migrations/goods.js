@@ -23,5 +23,11 @@ knex.schema.hasColumn('goods', 'serial').then(exists => {
   }
 })
 
+knex.schema.hasColumn('goods', 'imgs').then(exists => {
+  if (!exists) {
+    return knex.schema.table('goods', t => t.text('imgs').comment('商品图片').after('description'))
+  }
+})
+
 console.log('goods migrate end')
 process.exit()

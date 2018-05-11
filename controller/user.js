@@ -15,8 +15,8 @@ const searchUser = async (req, res) => {
   const params = req.query
 
   const sql = await knex('users').whereNull('deleted_at')
-  if (params.phone) sql.where('users.phone', params.phone)
 
+  if (params.phone) sql.where('users.phone', params.phone)
   if (params.sort) getSortSql(sql, params.sort)
 
   const data = await sql
@@ -58,7 +58,6 @@ const createUser = async (req, res) => {
 const getUser = async (req, res) => {
   const params = {id: req.params.id}
   const user = await knex('users').where(params).whereNull('deleted_at').first()
-
   res.json(Response('用户查询成功', 1, user))
 }
 
