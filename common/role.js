@@ -1,7 +1,7 @@
 import { Response } from './Response'
 
 const adminRole = async (req, res, next) => {
-  let account = req.session
+  let account = req.session.account
   if (!account) {
     return res.status(400).send(Response('请登录，谢谢', 0))
   }
@@ -14,7 +14,7 @@ const adminRole = async (req, res, next) => {
 }
 
 const userRole = async (req, res, next) => {
-  let account = req.session
+  let account = req.session.account
   if (!account) {
     return res.status(400).send(Response('请登录，谢谢', 0))
   }

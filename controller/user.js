@@ -68,29 +68,38 @@ const putUser = async (req, res) => {
   const params = Object.assign(req.body, req.params)
   const account = req.session.account
   if (account.user_type !== 'user') {
-    return res.status(400).send(Response('该账号不是用户', 0))
+    return res.status(400).send(Response('该账号不是用户权限', 0))
   }
+  console.log(account.user_id)
+  console.log(params.id)
   if (account.user_id !== params.id) {
-    return res.status(400).send(Response('权限不够', 1))
+    return res.status(400).send(Response('权限不够', 0))
   }
-  const exist = await knex('users').where({_id: params.id}).whereNull('deleted_at').first()
+  const exist = await knex('users').where({id: params.id}).whereNull('deleted_at').first()
   if (!exist) {
     return res.status(400).send(Response('用户不存在', 0))
   }
-  const updateResult = await knex('users').where({_id: params.id}).update(updateUser)
+  const updateResult = await knex('users').where({id: params.id}).update(updateUser)
   updateUser.updateResult = updateResult
   res.json(Response('用户信息修改成功', 1, updateUser))
 }
 
 // account表需要添加禁用用户字段
 const delUser = async (req, res) => {
-  const exist = await knex('users').where({_id: req.params.id}).whereNull('deleted_at').first()
+  const account = req.session.account
+  if (account.user_type !== 'user') {
+    return res.status(400).send(Response('该账号不是用户权限', 0))
+  }
+  if (account.user_id !== req.params.id) {
+    return res.status(400).send(Response('权限不够', 1))
+  }
+  const exist = await knex('users').where({id: req.params.id}).whereNull('deleted_at').first()
   if (!exist) {
     return res.status(400).send(Response('用户不存在', 0))
   }
 
   const deleteUser = await knex('users')
-    .where({_id: req.params.id})
+    .where({id: req.params.id})
     .update({deleted_at: new Date()})
   res.json(Response('用户已删除', 1, deleteUser))
 }
