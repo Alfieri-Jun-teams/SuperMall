@@ -5,6 +5,10 @@ import { Response } from '../common/Response'
 // import { logger } from '../common/log'
 import validate from 'express-validation'
 import { userLogger } from '../common/tracerlog'
+import { firstSecret, lastSecret } from '../config'
+import Base64 from 'crypto-js/enc-base64'
+import SHA256 from 'crypto-js/sha256'
+import _ from 'lodash'
 
 const searchUser = async (req, res) => {
   const params = req.query
@@ -20,21 +24,31 @@ const searchUser = async (req, res) => {
 }
 
 const createUser = async (req, res) => {
+  const params = req.body
+  validate(user, params)
+  const exist = await knex('users').where({phone: params.phone}).whereNull('deleted_at').first()
+  if (exist) {
+    return res.status(400).send(Response('用户已存在', 0, exist))
+  }
+  const password = firstSecret + params.password + lastSecret
+  const saltPassword = Base64.stringify(SHA256(password))
+  const userParams = _.omit(params, ['password'])
+  const trx = await knex.transaction()
   try {
-    const params = req.body
-    validate(user, params)
-
-    const exist = await knex('users').where({phone: params.phone}).whereNull('deleted_at').first()
-    if (exist) {
-      return res.status(400).send(Response('用户已存在', 0, exist))
-    }
-
-    const [id] = await knex('users').insert(params)
-    params.id = id
-
-    userLogger.info({userInfo: params, message: '用户创建成功'})
-    res.json(Response('用户创建成功', 1, params))
+    const [id] = await trx('users').insert(userParams)
+    const [insertAccount] = await trx('account').insert({
+      phone: params.phone,
+      password: saltPassword,
+      user_type: 'user',
+      user_id: id
+    })
+    await trx.commit()
+    userParams.id = id
+    userParams.insertAccount = insertAccount
+    userLogger.info({userInfo: userParams, message: '用户创建成功'})
+    res.json(Response('用户创建成功', 1, userParams))
   } catch (err) {
+    await trx.rollback()
     userLogger.error({message: '用户创建错误', err})
     return res.status(500).send(Response('服务端错误', 0))
   }
