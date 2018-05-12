@@ -37,9 +37,16 @@ let goods = [
 const seed = async (admin, goods) => {
   const trx = await knex.transaction()
   try {
-    await trx('admin').insert(admin)
+    const searchAdmin = trx('admin').where('phone', admin.phone).first()
+    if (!searchAdmin) {
+      await trx('admin').insert(admin)
+    }
+    // 优化 改成递归方式，别用for，性能太慢
     for (let i = 0; i < goods.length; i++) {
-      await trx('goods').insert(goods[i])
+      const searchGoods = await trx('goods').where('serial', goods[i].serial).first()
+      if (!searchGoods) {
+        await trx('goods').insert(goods[i])
+      }
     }
     await trx.commit()
     return '导入成功'
