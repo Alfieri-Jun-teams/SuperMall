@@ -7,6 +7,7 @@
     "start": "nodemon server.js --exec babel-node --presets es2015,stage-2",
     "lint": "standard",
     "db:migrate": "cd ./migrations && make migrate",
+    "db:seed": "node ./seeds/seed.js",
     "test": "./node_modules/mocha/bin/mocha"
   },
   "keywords": [

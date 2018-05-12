@@ -10,7 +10,7 @@ import { loginLogger } from '../common/tracerlog'
 const createToken = (phone, password) => {
   let payload = {
     sub: {phone, password},
-    exp: moment().add(1, 'day').unix()
+    exp: moment().add(7, 'day').unix()
   }
   return jwt.sign(payload, firstSecret)
 }
