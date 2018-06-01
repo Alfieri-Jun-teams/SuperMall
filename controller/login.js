@@ -6,6 +6,8 @@ import moment from 'moment'
 import Base64 from 'crypto-js/enc-base64'
 import SHA256 from 'crypto-js/sha256'
 import { loginLogger } from '../common/tracerlog'
+import { Login } from '../models/login'
+import Joi from 'joi'
 
 const createToken = (phone, password) => {
   let payload = {
@@ -17,6 +19,7 @@ const createToken = (phone, password) => {
 
 const login = async (req, res) => {
   const params = req.body
+  Joi.validate(params, Login)
   const saltPassword = firstSecret + params.password + lastSecret
   const compare = Base64.stringify(SHA256(saltPassword))
   const account = await knex('account').where('phone', params.phone).first()
