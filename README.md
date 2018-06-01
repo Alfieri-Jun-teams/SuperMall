@@ -1,4 +1,9 @@
 # SuperMall
+
+[![Build Status](https://travis-ci.org/Alfieri-Jun-teams/express-SuperMall.svg?branch=master)](https://travis-ci.org/Alfieri-Jun-teams/express-SuperMall)  [![Build status](https://ci.appveyor.com/api/projects/status/pjxh5g91jpbh7t84?svg=true)](https://ci.appveyor.com/project/AlfieriChou/express-supermall) [![license](https://img.shields.io/github/license/mono-js/mono-utils.svg)](https://github.com/Alfieri-Jun-teams/express-SuperMall/blob/master/LICENSE)
+
+[![Build history](https://buildstats.info/appveyor/chart/tygerbytes/resourcefitness)](https://ci.appveyor.com/project/AlfieriChou/express-supermall/history)
+
 super mall
 
 ### 暂缺功能和模块
