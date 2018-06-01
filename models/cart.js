@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const cart = Joi.object().keys({
+const Cart = Joi.object().keys({
 
   goods_id: Joi.string().description('关联商品id').required(),
   user_id: Joi.string().description('关联用户id').required(),
@@ -12,5 +12,5 @@ const cart = Joi.object().keys({
 })
 
 export {
-  cart
+  Cart
 }
