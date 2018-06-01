@@ -73,7 +73,8 @@ const destroy = async (params, req, res) => {
   if (!exist) {
     return res.status(400).send(Response('用户不存在', 0))
   }
-  const trx = await knex.transaction()
+  const promisify = (fn) => new Promise((resolve, reject) => fn(resolve))
+  const trx = await promisify(knex.transaction)
   try {
     const deleteUser = await trx('users')
       .where({id: req.params.id})
