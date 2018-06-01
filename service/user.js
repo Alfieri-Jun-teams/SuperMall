@@ -23,7 +23,8 @@ const create = async (params, req, res) => {
   const password = firstSecret + params.password + lastSecret
   const saltPassword = Base64.stringify(SHA256(password))
   const userParams = _.omit(params, ['password'])
-  const trx = await knex.transaction()
+  const promisify = (fn) => new Promise((resolve, reject) => fn(resolve))
+  const trx = await promisify(knex.transaction)
   try {
     const [id] = await trx('users').insert(userParams)
     const [insertAccount] = await trx('account').insert({
