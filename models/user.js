@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const user = Joi.object().keys({
+const User = Joi.object().keys({
 
   phone: Joi.string().regex(/^[0-9]{11}$/).description('手机号').required(),
   username: Joi.string().description('用户名'),
@@ -12,5 +12,5 @@ const user = Joi.object().keys({
 })
 
 export {
-  user
+  User
 }
