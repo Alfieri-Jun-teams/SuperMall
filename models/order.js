@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const order = Joi.object().keys({
+const Order = Joi.object().keys({
 
   goods_id: Joi.string().description('关联商品id').required(),
   user_id: Joi.string().description('关联用户id').required(),
@@ -15,5 +15,5 @@ const order = Joi.object().keys({
 })
 
 export {
-  order
+  Order
 }
