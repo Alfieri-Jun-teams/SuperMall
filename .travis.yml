@@ -3,9 +3,9 @@ language: node_js
 node_js:
   - '8'
 install:
-  - npm i npminstall && npminstall
+  - npm install
 script:
-- npm start
+- npm test
 branches:
   only:
     - master
