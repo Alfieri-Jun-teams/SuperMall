@@ -1,6 +1,6 @@
 import Joi from 'joi'
 
-const goods = Joi.object().keys({
+const Goods = Joi.object().keys({
 
   serial: Joi.string().description('商品编号').required(),
   name: Joi.string().description('商品名称').required(),
@@ -13,5 +13,5 @@ const goods = Joi.object().keys({
 })
 
 export {
-  goods
+  Goods
 }
