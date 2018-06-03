@@ -1,5 +1,5 @@
-import { Order } from '../models/order'
-import Joi from 'joi'
+import { model } from '../models/order'
+import { validate } from '../common/validate'
 import { index, create, show, update, destroy } from '../service/order'
 
 const searchOrder = async (req, res) => {
@@ -9,8 +9,12 @@ const searchOrder = async (req, res) => {
 
 const createOrder = async (req, res) => {
   const params = req.body
-  Joi.validate(params, Order)
-  create(params, req, res)
+  try {
+    await validate(params, model)
+    await create(params, req, res)
+  } catch (err) {
+    res.status(400).send(err)
+  }
 }
 
 const getOrder = async (req, res) => {
