@@ -1,3 +1,4 @@
+const output = require('./output')
 const Router = require('koa-joi-router')
 const Joi = Router.Joi
 
@@ -40,18 +41,7 @@ router.get('/carts', {
       user_id: Joi.number().description('用户id'),
       sort: Joi.string().description('排序 例如：-created_at, created_at')
     },
-    output: {
-      '200': {
-        body: Joi.object({
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().items(cart).description('返回数据'),
-          pagination: Joi.object().description('分页')
-        }).options({
-          allowUnknown: true
-        }).description('商品信息')
-      }
-    }
+    output: output('商品信息', cart)
   },
   handler: async ctx => {
     ctx.body = 'hello super'
@@ -74,15 +64,7 @@ router.post('/carts', {
       user_id: Joi.string().description('关联用户id').required(),
       amount: Joi.number().description('数量').required()
     },
-    output: {
-      200: {
-        body: {
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().items(post).description('返回数据')
-        }
-      }
-    }
+    output: output('添加购物车成功', post)
   },
   handler: async ctx => {
     ctx.body = 'hello super'
@@ -101,17 +83,7 @@ router.get('/carts/:id', {
     params: {
       id: Joi.number().description('id')
     },
-    output: {
-      '200': {
-        body: Joi.object({
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().items(cart).description('返回数据')
-        }).options({
-          allowUnknown: true
-        }).description('购物车详情信息')
-      }
-    }
+    output: output('购物车详情信息', cart)
   },
   handler: async ctx => {
     ctx.body = 'hello super'
@@ -134,17 +106,7 @@ router.put('/carts/:id', {
     body: {
       amount: Joi.number().description('数量')
     },
-    output: {
-      '200': {
-        body: Joi.object({
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().items(put).description('返回数据')
-        }).options({
-          allowUnknown: true
-        }).description('购物车信息修改')
-      }
-    }
+    output: output('购物车修改成功', put)
   },
   handler: async ctx => {
     ctx.body = 'hello super'
@@ -163,17 +125,7 @@ router.delete('/carts/:id', {
     params: {
       id: Joi.number().description('id')
     },
-    output: {
-      '200': {
-        body: Joi.object({
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().description('返回数据')
-        }).options({
-          allowUnknown: true
-        }).description('删除购物车信息')
-      }
-    }
+    output: output('删除购物车信息')
   },
   handler: async ctx => {
     ctx.body = 'hello super'

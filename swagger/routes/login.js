@@ -1,5 +1,6 @@
 const Router = require('koa-joi-router')
 const Joi = Router.Joi
+const output = require('./output')
 const router = Router()
 
 router.post('/login', {
@@ -16,15 +17,7 @@ router.post('/login', {
       phone: Joi.string().required(),
       password: Joi.string().alphanum().min(6).max(30).required()
     },
-    output: {
-      200: {
-        body: {
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.string().description('返回数据 token jwt')
-        }
-      }
-    }
+    output: output('登录成功')
   },
   handler: async ctx => {
     ctx.body = 'hello super'

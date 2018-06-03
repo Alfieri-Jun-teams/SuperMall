@@ -1,3 +1,4 @@
+const output = require('./output')
 const Router = require('koa-joi-router')
 const Joi = Router.Joi
 
@@ -46,18 +47,7 @@ router.get('/goods', {
       search: Joi.string().description('搜索 支持名字和编号 例如：name, serial'),
       sort: Joi.string().description('排序 例如：-created_at, created_at')
     },
-    output: {
-      '200': {
-        body: Joi.object({
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().items(goods).description('返回数据'),
-          pagination: Joi.object().description('分页')
-        }).options({
-          allowUnknown: true
-        }).description('商品信息')
-      }
-    }
+    output: output('商品信息', goods)
   },
   handler: async ctx => {
     ctx.body = 'hello super'
@@ -81,15 +71,7 @@ router.post('/goods', {
       price: Joi.string().description('价格').required(),
       description: Joi.string()
     },
-    output: {
-      200: {
-        body: {
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().items(post).description('返回数据')
-        }
-      }
-    }
+    output: output('商品添加成功', post)
   },
   handler: async ctx => {
     ctx.body = 'hello super'
@@ -108,17 +90,7 @@ router.get('/goods/:id', {
     params: {
       id: Joi.number().description('id')
     },
-    output: {
-      '200': {
-        body: Joi.object({
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().items(goods).description('返回数据')
-        }).options({
-          allowUnknown: true
-        }).description('商品详情信息')
-      }
-    }
+    output: output('商品详情', goods)
   },
   handler: async ctx => {
     ctx.body = 'hello super'
@@ -143,17 +115,7 @@ router.put('/goods/:id', {
       name: Joi.string().description('名称'),
       price: Joi.string().description('价格')
     },
-    output: {
-      '200': {
-        body: Joi.object({
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().items(put).description('返回数据')
-        }).options({
-          allowUnknown: true
-        }).description('商品信息修改')
-      }
-    }
+    output: output('商品信息修改成功', put)
   },
   handler: async ctx => {
     ctx.body = 'hello super'
@@ -172,17 +134,7 @@ router.delete('/goods/:id', {
     params: {
       id: Joi.number().description('id')
     },
-    output: {
-      '200': {
-        body: Joi.object({
-          code: Joi.number().description('返回标识'),
-          message: Joi.string().description('接口描述'),
-          data: Joi.array().description('返回数据')
-        }).options({
-          allowUnknown: true
-        }).description('删除商品信息')
-      }
-    }
+    output: output('商品信息删除成功')
   },
   handler: async ctx => {
     ctx.body = 'hello super'
