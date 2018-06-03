@@ -7,17 +7,7 @@ const props = {
 
 const model = Joi.object().keys(props).description('登录')
 
-const login = {
-  method: 'post',
-  summary: '登录',
-  path: '/login',
-  requestBody: {
-    body: ['phone', 'password'],
-    required: ['phone', 'password']
-  }
-}
-
 export {
   model,
-  login
+  props
 }

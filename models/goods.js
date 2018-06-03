@@ -1,6 +1,8 @@
 import Joi from 'joi'
 
 const props = {
+  id: Joi.number().description('id'),
+  type_id: Joi.number().description('类型id'),
   serial: Joi.string().description('商品编号').required(),
   name: Joi.string().description('商品名称').required(),
   price: Joi.number().description('价格').required(),
@@ -13,5 +15,6 @@ const props = {
 const model = Joi.object().keys(props).description('商品信息')
 
 export {
-  model
+  model,
+  props
 }

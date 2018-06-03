@@ -1,29 +1,26 @@
+import { props } from '../../models/user'
+import _ from 'lodash'
 const output = require('./output')
 const Router = require('koa-joi-router')
 const Joi = Router.Joi
 
 const router = Router()
 
-const user = Joi.object({
-  id: Joi.number().description('id'),
-  phone: Joi.string().description('手机号'),
-  username: Joi.string().description('用户名'),
-  created_at: Joi.date().description('创建时间'),
-  updated_at: Joi.date().description('更新时间'),
-  deleted_at: Joi.date().description('逻辑删除时间')
-}).description('用户信息表')
-
-const post = Joi.object({
-  id: Joi.number().description('id'),
-  phone: Joi.string().description('手机号'),
-  insertAccount: Joi.number().description('account对应的id')
-})
-
-const put = Joi.object({
-  id: Joi.number().description('id'),
-  username: Joi.string().description('手机号'),
-  update: Joi.number().description('返回标识')
-})
+const user = Joi.object(props).description('用户信息表')
+const post = Joi.object(Object.assign(
+  {
+    id: Joi.number().description('id'),
+    insertAccount: Joi.number().description('account对应的id')
+  },
+  _.pick(props, ['phone'])
+))
+const put = Joi.object(Object.assign(
+  {
+    id: Joi.number().description('id'),
+    update: Joi.number().description('返回标识')
+  },
+  _.pick(props, ['phone'])
+))
 
 router.get('/users', {
   meta: {
@@ -56,10 +53,7 @@ router.post('/users', {
   },
   validate: {
     type: 'json',
-    body: {
-      phone: Joi.string().required(),
-      password: Joi.string().alphanum().min(6).max(30).required()
-    },
+    body: _.pick(props, ['phone', 'password']),
     output: output('新增用户信息', post)
   },
   handler: async ctx => {

@@ -12,5 +12,6 @@ const props = {
 const model = Joi.object().keys(props).description('用户信息')
 
 export {
-  model
+  model,
+  props
 }

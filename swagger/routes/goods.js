@@ -1,37 +1,19 @@
+import { props } from '../../models/goods'
+import _ from 'lodash'
 const output = require('./output')
 const Router = require('koa-joi-router')
 const Joi = Router.Joi
 
 const router = Router()
 
-const goods = Joi.object({
-  id: Joi.number().description('id'),
-  serial: Joi.string().description('商品编号'),
-  type_id: Joi.number().description('商品配型id').required(),
-  name: Joi.string().description('商品名称').required(),
-  price: Joi.number().description('价格').required(),
-  description: Joi.string().description('商品描述'),
-  created_at: Joi.date().description('创建时间'),
-  updated_at: Joi.date().description('更新时间'),
-  deleted_at: Joi.date().description('逻辑删除时间')
-}).description('商品信息表')
-
-const post = Joi.object({
-  id: Joi.number().description('id'),
-  type_id: Joi.number().description('类型id'),
-  name: Joi.string().description('商品名称'),
-  price: Joi.string().description('价格'),
-  description: Joi.string().description('商品描述')
-})
-
-const put = Joi.object({
-  id: Joi.number().description('id'),
-  type_id: Joi.number().description('类型id'),
-  name: Joi.string().description('商品名称'),
-  price: Joi.string().description('价格'),
-  description: Joi.string().description('商品描述'),
-  updateGoods: Joi.number().description('返回标识')
-})
+const goods = Joi.object(props).description('商品信息表')
+const post = Joi.object(_.pick(props, ['id', 'type_id', 'name', 'price', 'description']))
+const put = Joi.object(
+  Object.assign(
+    {updateGoods: Joi.number().description('返回标识')},
+    _.pick(props, ['id', 'type_id', 'name', 'price', 'description'])
+  )
+)
 
 router.get('/goods', {
   meta: {
@@ -65,12 +47,7 @@ router.post('/goods', {
   },
   validate: {
     type: 'json',
-    body: {
-      type_id: Joi.number().required(),
-      name: Joi.string().required(),
-      price: Joi.string().description('价格').required(),
-      description: Joi.string()
-    },
+    body: _.pick(props, ['type_id', 'name', 'price', 'description']),
     output: output('商品添加成功', post)
   },
   handler: async ctx => {
@@ -110,11 +87,7 @@ router.put('/goods/:id', {
       id: Joi.number().description('id')
     },
     type: 'json',
-    body: {
-      type_id: Joi.number().description('类型id'),
-      name: Joi.string().description('名称'),
-      price: Joi.string().description('价格')
-    },
+    body: _.pick(props, ['type_id', 'name', 'price', 'description']),
     output: output('商品信息修改成功', put)
   },
   handler: async ctx => {

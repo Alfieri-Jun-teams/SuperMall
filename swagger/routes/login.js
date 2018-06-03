@@ -1,6 +1,6 @@
+import { props } from '../../models/login'
 const output = require('./output')
 const Router = require('koa-joi-router')
-const Joi = Router.Joi
 
 const router = Router()
 
@@ -14,10 +14,7 @@ router.post('/login', {
   },
   validate: {
     type: 'json',
-    body: {
-      phone: Joi.string().required(),
-      password: Joi.string().alphanum().min(6).max(30).required()
-    },
+    body: props,
     output: output('登录成功')
   },
   handler: async ctx => {

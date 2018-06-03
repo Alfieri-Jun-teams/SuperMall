@@ -1,31 +1,19 @@
+import { props } from '../../models/cart'
+import _ from 'lodash'
 const output = require('./output')
 const Router = require('koa-joi-router')
 const Joi = Router.Joi
 
 const router = Router()
 
-const cart = Joi.object({
-  id: Joi.number().description('id'),
-  goods_id: Joi.string().description('关联商品id').required(),
-  user_id: Joi.string().description('关联用户id').required(),
-  amount: Joi.number().description('数量').required(),
-  created_at: Joi.date().description('创建时间'),
-  updated_at: Joi.date().description('更新时间'),
-  deleted_at: Joi.date().description('逻辑删除时间')
-}).description('购物车信息表')
-
-const post = Joi.object({
-  id: Joi.number().description('id'),
-  goods_id: Joi.string().description('关联商品id'),
-  user_id: Joi.string().description('关联用户id'),
-  amount: Joi.number().description('数量')
-})
-
-const put = Joi.object({
-  id: Joi.number().description('id'),
-  amount: Joi.number().description('数量'),
-  updateCart: Joi.number().description('返回标识')
-})
+const cart = Joi.object(props).description('购物车信息表')
+const post = Joi.object(_.pick(props, ['id', 'goods_id', 'user_id', 'amount']))
+const put = Joi.object(
+  Object.assign(
+    {updateCart: Joi.number().description('返回标识')},
+    _.pick(props, ['id', 'amount'])
+  )
+)
 
 router.get('/carts', {
   meta: {
@@ -59,11 +47,7 @@ router.post('/carts', {
   },
   validate: {
     type: 'json',
-    body: {
-      goods_id: Joi.string().description('关联商品id').required(),
-      user_id: Joi.string().description('关联用户id').required(),
-      amount: Joi.number().description('数量').required()
-    },
+    body: _.pick(props, ['goods_id', 'user_id', 'amount']),
     output: output('添加购物车成功', post)
   },
   handler: async ctx => {

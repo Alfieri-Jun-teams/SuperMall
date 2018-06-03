@@ -1,35 +1,14 @@
+import { props } from '../../models/order'
+import _ from 'lodash'
 const output = require('./output')
 const Router = require('koa-joi-router')
 const Joi = Router.Joi
 
 const router = Router()
 
-const cart = Joi.object({
-  id: Joi.number().description('id'),
-  serial: Joi.string().description('订单编号'),
-  goods_id: Joi.string().description('关联商品id').required(),
-  user_id: Joi.string().description('关联用户id').required(),
-  amount: Joi.number().description('数量').required(),
-  is_fahuo: Joi.number().valid(0, 1).description('是否发货 0-默认 1-发货'),
-  express_name: Joi.string().description('快递名称'),
-  express_serial: Joi.string().description('快递单号'),
-  created_at: Joi.date().description('创建时间'),
-  updated_at: Joi.date().description('更新时间'),
-  deleted_at: Joi.date().description('逻辑删除时间')
-}).description('订单信息表')
-
-const post = Joi.object({
-  id: Joi.number().description('id'),
-  goods_id: Joi.string().description('关联商品id'),
-  user_id: Joi.string().description('关联用户id'),
-  amount: Joi.number().description('数量')
-})
-
-const put = Joi.object({
-  id: Joi.number().description('id'),
-  amount: Joi.number().description('数量'),
-  updateOrder: Joi.number().description('返回标识')
-})
+const cart = Joi.object(props).description('订单信息表')
+const post = Joi.object(_.pick(props, ['id', 'goods_id', 'user_id', 'amount']))
+const put = Joi.object(Object.assign({updateOrder: Joi.number().description('返回标识')}, _.pick(props, ['id', 'amount'])))
 
 router.get('/orders', {
   meta: {
@@ -63,11 +42,7 @@ router.post('/orders', {
   },
   validate: {
     type: 'json',
-    body: {
-      goods_id: Joi.string().description('关联商品id').required(),
-      user_id: Joi.string().description('关联用户id').required(),
-      amount: Joi.number().description('数量').required()
-    },
+    body: _.pick(props, ['goods_id', 'user_id', 'amount']),
     output: output('订单新建成功', post)
   },
   handler: async ctx => {

@@ -1,6 +1,7 @@
 import Joi from 'joi'
 
 const props = {
+  id: Joi.number().description('id'),
   goods_id: Joi.string().description('关联商品id').required(),
   user_id: Joi.string().description('关联用户id').required(),
   amount: Joi.number().description('数量').required(),
@@ -12,5 +13,6 @@ const props = {
 const model = Joi.object().keys(props).description('购物车')
 
 export {
-  model
+  model,
+  props
 }
