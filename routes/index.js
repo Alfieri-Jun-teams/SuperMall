@@ -16,7 +16,7 @@ api.route('/users/:id').put(userRole, putUser)
 api.route('/users/:id').delete(userRole, delUser)
 
 // 账号登录
-api.route('/account/login').post(login)
+api.route('/login').post(login)
 
 // 购物车
 api.route('/cart').get(userRole, searchCart)
