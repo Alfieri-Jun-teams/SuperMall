@@ -1,6 +1,7 @@
+const output = require('./output')
 const Router = require('koa-joi-router')
 const Joi = Router.Joi
-const output = require('./output')
+
 const router = Router()
 
 router.post('/login', {
