@@ -1,7 +1,6 @@
 import Joi from 'joi'
 
-const Goods = Joi.object().keys({
-
+const props = {
   serial: Joi.string().description('商品编号').required(),
   name: Joi.string().description('商品名称').required(),
   price: Joi.number().description('价格').required(),
@@ -9,9 +8,10 @@ const Goods = Joi.object().keys({
   created_at: Joi.date().description('创建时间'),
   updated_at: Joi.date().description('更新时间'),
   deleted_at: Joi.date().description('逻辑删除时间')
+}
 
-})
+const model = Joi.object().keys(props).description('商品信息')
 
 export {
-  Goods
+  model
 }
