@@ -2,8 +2,6 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
-import swaggerUi from 'swagger-ui-express'
-import swaggerDocument from './swagger.json'
 import routes from './routes/index'
 import { knex } from './knex/mysql'
 import session from 'express-session'
@@ -23,16 +21,10 @@ setInterval(() => {
 const app = express()
 const port = process.env.PORT || 6000
 
-const options = {
-  explorer: true
-}
-
 // bodyParser morgan
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(morgan('dev'))
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, options))
 
 app.use(express.static('./public'))
 
