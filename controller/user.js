@@ -1,5 +1,5 @@
-import { User } from '../models/user'
-import Joi from 'joi'
+import { model } from '../models/user'
+import { validate } from '../common/validate'
 import { index, create, show, update, destroy } from '../service/user'
 
 // 数据分页功能还未添加
@@ -10,8 +10,12 @@ const searchUser = async (req, res) => {
 
 const createUser = async (req, res) => {
   const params = req.body
-  Joi.validate(params, User)
-  create(params, req, res)
+  try {
+    await validate(params, model)
+    await create(params, req, res)
+  } catch (err) {
+    res.status(400).send(err)
+  }
 }
 
 const getUser = async (req, res) => {
