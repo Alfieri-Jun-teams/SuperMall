@@ -15,10 +15,10 @@ const config = _.merge(defaultConfig, configs[env])
 const knex = require('knex')({
   client: 'mysql',
   connection: {
-    host: config.host,
-    user: config.user,
-    password: config.password,
-    database: config.database
+    host: config.db.host,
+    user: config.db.user,
+    password: config.db.password,
+    database: config.db.database
   }
 })
 
