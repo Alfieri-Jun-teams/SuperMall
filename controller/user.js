@@ -1,4 +1,4 @@
-import { model } from '../models/user'
+import { User } from '../models/user'
 import { validate } from '../common/validate'
 import { index, create, show, update, destroy } from '../service/user'
 
@@ -11,7 +11,7 @@ const searchUser = async (req, res) => {
 const createUser = async (req, res) => {
   const params = req.body
   try {
-    await validate(params, model)
+    validate(params, User)
     await create(params, req, res)
   } catch (err) {
     res.status(400).send(err)
