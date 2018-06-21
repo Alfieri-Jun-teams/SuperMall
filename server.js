@@ -3,11 +3,10 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import routes from './routes/index'
-import { knex } from './knex/mysql'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import conRedis from 'connect-redis'
-import config from './config/index'
+import { config, knex } from './config/index'
 
 const RedisStore = conRedis(session)
 
