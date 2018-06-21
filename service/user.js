@@ -1,4 +1,4 @@
-import { knex } from '../knex/mysql'
+import { knex } from '../config/index'
 import { getSortSql } from '../common/sort'
 import { Response } from '../common/Response'
 import { userLogger } from '../common/tracerlog'
