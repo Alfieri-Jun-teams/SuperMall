@@ -34,6 +34,7 @@
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "joi": "^13.1.2",
+    "joi-to-json-schema": "^3.3.0",
     "jsonwebtoken": "^8.2.1",
     "knex": "^0.14.4",
     "lodash": "^4.17.5",
