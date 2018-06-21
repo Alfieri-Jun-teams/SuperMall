@@ -10,7 +10,19 @@ const configs = {
 const defaultConfig = {
   env: env
 }
-
 const config = _.merge(defaultConfig, configs[env])
 
-export default config
+const knex = require('knex')({
+  client: 'mysql',
+  connection: {
+    host: config.host,
+    user: config.user,
+    password: config.password,
+    database: config.database
+  }
+})
+
+export {
+  config,
+  knex
+}
