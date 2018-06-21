@@ -1,4 +1,4 @@
-import { model } from '../models/cart'
+import { Cart } from '../models/cart'
 import { validate } from '../common/validate'
 import { index, create, show, update, destroy } from '../service/cart'
 
@@ -10,10 +10,10 @@ const searchCart = async (req, res) => {
 const createCart = async (req, res) => {
   const params = req.body
   try {
-    await validate(params, model)
+    validate(params, Cart)
     await create(params, req, res)
   } catch (err) {
-    res.status(400).send(err)
+    res.status(400).send('购物车新建错误')
   }
 }
 

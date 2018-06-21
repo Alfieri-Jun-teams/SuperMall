@@ -1,4 +1,4 @@
-import { model } from '../models/goods'
+import { Goods } from '../models/goods'
 import { validate } from '../common/validate'
 import { index, create, show, update, destroy } from '../service/goods'
 
@@ -10,7 +10,7 @@ const searchGoods = async (req, res) => {
 const createGoods = async (req, res) => {
   const params = req.body
   try {
-    await validate(params, model)
+    validate(params, Goods)
     await create(params, req, res)
   } catch (err) {
     res.status(400).send(err)

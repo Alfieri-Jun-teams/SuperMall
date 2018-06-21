@@ -1,4 +1,5 @@
 import Joi from 'joi'
+import convert from 'joi-to-json-schema'
 
 const props = {
   id: Joi.number().description('id'),
@@ -10,9 +11,10 @@ const props = {
   deleted_at: Joi.date().description('逻辑删除时间')
 }
 
-const model = Joi.object().keys(props).description('购物车')
+const model = Joi.object(props).description('购物车')
+const Cart = convert(model)
 
 export {
-  model,
+  Cart,
   props
 }
