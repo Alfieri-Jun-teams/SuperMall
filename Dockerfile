@@ -1,15 +1,11 @@
 #Dockerfile文件
-FROM docker.io/node
+FROM docker.io/node:8.9.4-alpine
 
-# Create app directory
-RUN mkdir -p /home/demo
-WORKDIR /home/demo
-
-# Bundle app source
-COPY . /home/demo
-
+RUN mkdir /app
+WORKDIR /app
+ADD . /app
 RUN npm install
+RUN npm install production
 
-EXPOSE 6000
-
-CMD [ "npm", "start" ]
+EXPOSE 3000
+EXPOSE 4000
