@@ -12,5 +12,5 @@ module.exports = {
   },
   lastSecret: 'a093d64d01',
   firstSecret: 'e069e5c994',
-  port: process.env.PORT || 6000
+  port: process.env.PORT || 4000
 }

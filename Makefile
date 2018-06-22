@@ -11,21 +11,5 @@ rebuild:
 
 #################################################
 
-start:
-	@docker run --name supermall -d \
-		-p 6000:6000 \
-		-d super
-stop:
-	@docker stop supermall
-remove:
-	@docker rm -f supermall
-update:
-	@git checkout develop
-	@git pull
-	@make stop
-	@make remove
-	@make start
-restart:
-	@make stop
-	@make remove
-	@make start
+include ./builds/test.mk
+include ./builds/prod.mk
