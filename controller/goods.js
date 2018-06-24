@@ -13,23 +13,35 @@ const create = async (req, res) => {
     validate(params, Goods)
     await goodsService.create(params, req, res)
   } catch (err) {
-    res.status(400).send(err)
+    res.status(400).send('创建商品错误')
   }
 }
 
 const show = async (req, res) => {
-  const params = req.params.id
-  await goodsService.show(params, req, res)
+  const params = req.params
+  try {
+    await goodsService.show(params, req, res)
+  } catch (err) {
+    res.status(400).send('商品详情错误')
+  }
 }
 
 const update = async (req, res) => {
   const params = Object.assign(req.params, req.body)
-  await goodsService.update(params, req, res)
+  try {
+    await goodsService.update(params, req, res)
+  } catch (err) {
+    res.status(400).send('商品更新错误')
+  }
 }
 
 const destroy = async (req, res) => {
-  const params = req.params.id
-  await goodsService.destroy(params, req, res)
+  const params = req.params
+  try {
+    await goodsService.destroy(params, req, res)
+  } catch (err) {
+    res.status(400).send('商品删除错误')
+  }
 }
 
 export {

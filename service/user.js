@@ -6,6 +6,7 @@ import { firstSecret, lastSecret } from '../config'
 import Base64 from 'crypto-js/enc-base64'
 import SHA256 from 'crypto-js/sha256'
 import _ from 'lodash'
+import * as base from '../common/baseService'
 
 const index = async (params, req, res) => {
   const sql = await knex('users').whereNull('deleted_at')
@@ -46,22 +47,18 @@ const create = async (params, req, res) => {
 }
 
 const show = async (params, req, res) => {
-  const user = await knex('users').where(params).whereNull('deleted_at').first()
+  const user = await base.show('users', params)
   res.json(Response('用户查询成功', 1, user))
 }
 
-const update = async (updateUser, params, req, res) => {
+const update = async (params, req, res) => {
   const account = req.session.account
   if (account.user_type !== 'user' || account.user_id !== parseInt(params.id)) {
     return res.status(400).send(Response('权限不足', 0))
   }
-  const exist = await knex('users').where({id: params.id}).whereNull('deleted_at').first()
-  if (!exist) {
-    return res.status(400).send(Response('用户不存在', 0))
-  }
-  const updateResult = await knex('users').where({id: params.id}).update(updateUser)
-  updateUser.updateResult = updateResult
-  res.json(Response('用户信息修改成功', 1, updateUser))
+  const updateUser = Object.assign({updated_at: new Date()}, req.body)
+  const result = await base('users', updateUser)
+  res.json(Response('用户信息修改成功', 1, result))
 }
 
 const destroy = async (params, req, res) => {
@@ -69,10 +66,9 @@ const destroy = async (params, req, res) => {
   if (account.user_type !== 'user' || account.user_id !== parseInt(req.params.id)) {
     return res.status(400).send(Response('该账号不是用户权限', 0))
   }
-  const exist = await knex('users').where({id: req.params.id}).whereNull('deleted_at').first()
-  if (!exist) {
-    return res.status(400).send(Response('用户不存在', 0))
-  }
+  const id = params.id
+  const condition = {id: id}
+  await base.exists('users', condition)
   const promisify = (fn) => new Promise((resolve, reject) => fn(resolve))
   const trx = await promisify(knex.transaction)
   try {
