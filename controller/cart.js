@@ -19,17 +19,29 @@ const create = async (req, res) => {
 
 const show = async (req, res) => {
   const params = req.params
-  await cartService.show(params, req, res)
+  try {
+    await cartService.show(params, req, res)
+  } catch (err) {
+    res.status(400).send('购物车不存在')
+  }
 }
 
 const update = async (req, res) => {
   const params = Object.assign(req.body, req.params)
-  await cartService.update(params, req, res)
+  try {
+    await cartService.update(params, req, res)
+  } catch (err) {
+    res.status(400).send('购物车更新失败')
+  }
 }
 
 const destroy = async (req, res) => {
   const params = req.params
-  await cartService.destroy(params, req, res)
+  try {
+    await cartService.destroy(params, req, res)
+  } catch (err) {
+    res.status(400).send('购物车删除失败')
+  }
 }
 
 export {

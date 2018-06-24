@@ -5,9 +5,7 @@ const exists = async (table, params) => {
     .where(params)
     .whereNull('deleted_at')
     .first()
-
   if (!entity) throw new Error('NO EXISTS')
-
   return entity
 }
 
