@@ -1,6 +1,6 @@
 import express from 'express'
 import { adminRole, userRole } from '../common/role'
-import { searchUser, createUser, getUser, putUser, delUser } from '../controller/user'
+import * as userController from '../controller/user'
 import { login } from '../controller/login'
 import * as cartController from '../controller/cart'
 import * as goodsController from '../controller/goods'
@@ -9,11 +9,11 @@ import * as orderController from '../controller/order'
 const api = express.Router()
 
 // 用户
-api.route('/users').get(adminRole, searchUser)
-api.route('/users').post(createUser)
-api.route('/users/:id').get(userRole, getUser)
-api.route('/users/:id').put(userRole, putUser)
-api.route('/users/:id').delete(userRole, delUser)
+api.route('/users').get(adminRole, userController.index)
+api.route('/users').post(userController.create)
+api.route('/users/:id').get(userRole, userController.show)
+api.route('/users/:id').put(userRole, userController.update)
+api.route('/users/:id').delete(userRole, userController.destroy)
 
 // 账号登录
 api.route('/login').post(login)
