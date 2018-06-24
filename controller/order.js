@@ -4,7 +4,7 @@ import * as orderService from '../service/order'
 
 const index = async (req, res) => {
   const params = req.query
-  orderService.index(params, req, res)
+  await orderService.index(params, req, res)
 }
 
 const create = async (req, res) => {
@@ -13,23 +13,38 @@ const create = async (req, res) => {
     validate(params, Order)
     await orderService.create(params, req, res)
   } catch (err) {
-    res.status(400).send(err)
+    res.status(400).send('订单创建错误')
   }
 }
 
 const show = async (req, res) => {
-  const params = req.params.id
-  orderService.show(params, req, res)
+  const params = req.params
+  try {
+    validate(params, Order)
+    await orderService.show(params, req, res)
+  } catch (err) {
+    res.status(400).send('订单获取错误')
+  }
 }
 
 const update = async (req, res) => {
   const params = Object.assign(req.params, req.body)
-  orderService.update(params, req, res)
+  try {
+    validate(params, Order)
+    await orderService.update(params, req, res)
+  } catch (err) {
+    res.status(400).send('订单更新错误')
+  }
 }
 
 const destroy = async (req, res) => {
-  const params = req.params.id
-  orderService.destroy(params, req, res)
+  const params = req.params
+  try {
+    validate(params, Order)
+    await orderService.destroy(params, req, res)
+  } catch (err) {
+    res.status(400).send('订单删除错误')
+  }
 }
 
 export {

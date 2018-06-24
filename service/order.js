@@ -2,6 +2,7 @@ import { knex } from '../config/index'
 import { Response } from '../common/Response'
 import { getSortSql } from '../common/sort'
 import { orderLogger } from '../common/tracerlog'
+import * as base from '../common/baseService'
 
 const index = async (params, req, res) => {
   const sql = await knex('order').whereNull('deleted_at')
@@ -48,18 +49,12 @@ const create = async (params, req, res) => {
 }
 
 const show = async (params, req, res) => {
-  const order = await knex('order').where('id', params.id).whereNull('deleted_at')
-  if (!order) {
-    return res.status(400).send(Response('订单不存在', 0))
-  }
+  const order = await base.show('order', params)
   res.json(Response('订单查询成功', 1, order))
 }
 
 const update = async (params, req, res) => {
-  const order = await knex('order').where('id', params.id).whereNull('deleted_at').first()
-  if (!order) {
-    return res.status(400).send(Response('订单不存在', 0))
-  }
+  const order = await base.show('order', params)
   if (order.is_fahuo === 1) {
     return res.status(400).send(Response('已发货，不能修改订单哦', 0))
   }
@@ -70,10 +65,7 @@ const update = async (params, req, res) => {
 }
 
 const destroy = async (params, req, res) => {
-  const order = await knex('order').where('id', params.id).whereNull('deleted_at').first()
-  if (!order) {
-    return res.status(400).send(Response('订单不存在', 0))
-  }
+  const order = await base.show('order', params)
   if (order.is_fahuo === 1) {
     return res.status(400).send(Response('已经发货的订单不能删除哦', 0))
   }
