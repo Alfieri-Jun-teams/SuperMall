@@ -21,7 +21,6 @@ const create = async (req, res) => {
 const show = async (req, res) => {
   const params = req.params
   try {
-    validate(params, User)
     await userService.show(params, req, res)
   } catch (err) {
     res.status(400).send('用户详情获取失败')
@@ -31,7 +30,6 @@ const show = async (req, res) => {
 const update = async (req, res) => {
   const params = Object.assign(req.body, req.params)
   try {
-    validate(params, User)
     await userService.update(params, req, res)
   } catch (err) {
     res.status(400).send('用户更新错误')
@@ -41,7 +39,6 @@ const update = async (req, res) => {
 const destroy = async (req, res) => {
   const params = req.params
   try {
-    validate(params, User)
     await userService.destroy(params, req, res)
   } catch (err) {
     res.status(400).send('用户删除错误')
