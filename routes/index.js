@@ -2,7 +2,7 @@ import express from 'express'
 import { adminRole, userRole } from '../common/role'
 import { searchUser, createUser, getUser, putUser, delUser } from '../controller/user'
 import { login } from '../controller/login'
-import { searchCart, createCart, getCart, putCart, destroyCart } from '../controller/cart'
+import * as cartController from '../controller/cart'
 import { searchGoods, createGoods, getGoods, putGoods, destroyGoods } from '../controller/goods'
 import { searchOrder, createOrder, getOrder, putOrder, destroyOrder } from '../controller/order'
 
@@ -19,11 +19,11 @@ api.route('/users/:id').delete(userRole, delUser)
 api.route('/login').post(login)
 
 // 购物车
-api.route('/cart').get(userRole, searchCart)
-api.route('/cart').post(userRole, createCart)
-api.route('/cart/:id').get(userRole, getCart)
-api.route('/cart/:id').put(userRole, putCart)
-api.route('/cart/:id').delete(userRole, destroyCart)
+api.route('/cart').get(userRole, cartController.index)
+api.route('/cart').post(userRole, cartController.create)
+api.route('/cart/:id').get(userRole, cartController.show)
+api.route('/cart/:id').put(userRole, cartController.update)
+api.route('/cart/:id').delete(userRole, cartController.destroy)
 
 // 商品 (需要管理员权限)
 api.route('/goods').get(adminRole, searchGoods)
