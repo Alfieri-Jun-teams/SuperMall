@@ -2,6 +2,7 @@ import { knex } from '../config/index'
 import { Response } from '../common/Response'
 import { getSortSql } from '../common/sort'
 import { goodsLogger } from '../common/tracerlog'
+import * as base from '../common/baseService'
 
 const index = async (params, req, res) => {
   const sql = await knex('goods').whereNull('deleted_at')
@@ -35,43 +36,19 @@ const create = async (params, req, res) => {
 }
 
 const show = async (params, req, res) => {
-  const goods = await knex('goods').where('id', params.id).whereNull('deleted_at').first()
-  if (!goods) {
-    return res.status(400).send(Response('没有找到该商品', 0))
-  }
+  const goods = await base.show('goods', params)
   res.json(Response('商品详情', 1, goods))
 }
 
 const update = async (params, req, res) => {
-  if (!req.session) {
-    return res.status(400).send(Response('请登录', 0))
-  }
-  if (req.session && req.session.account.user_type !== 'admin') {
-    return res.status(400).send(Response('不好意思，您没有权限添加', 0))
-  }
-  const goods = await knex('goods').where('id', params.id).whereNull('deleted_at').first()
-  if (!goods) {
-    return res.status(400).send(Response('没有找到该商品', 0))
-  }
   const updateParams = Object.assign({updated_at: new Date()}, params)
-  const updateGoods = await knex('goods').where('id', params.id).update(updateParams)
-  params.updateGoods = updateGoods
-  res.json(Response('商品更新成功', 1, params))
+  const result = await base.update('goods', updateParams)
+  res.json(Response('商品更新成功', 1, result))
 }
 
 const destroy = async (params, req, res) => {
-  if (!req.session) {
-    return res.status(400).send(Response('请登录', 0))
-  }
-  if (req.session && req.session.account.user_type !== 'admin') {
-    return res.status(400).send(Response('不好意思，您没有权限添加', 0))
-  }
-  const goods = await knex('goods').where('id', params.id).whereNull('deleted_at').first()
-  if (!goods) {
-    return res.status(400).send(Response('该商品不存在，请在确定商品一定存在的时候，进行此操作', 0))
-  }
-  await knex('goods').where('id', params.id).update('deleted_at', new Date())
-  res.json(Response('删除成功', 1))
+  const result = await base.destroy('goods', params)
+  res.json(Response('删除成功', 1, result))
 }
 
 export {
