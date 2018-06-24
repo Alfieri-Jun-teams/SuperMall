@@ -1,42 +1,57 @@
-import { model } from '../models/user'
+import { User } from '../models/user'
 import { validate } from '../common/validate'
-import { index, create, show, update, destroy } from '../service/user'
+import * as userService from '../service/user'
 
 // 数据分页功能还未添加
-const searchUser = async (req, res) => {
+const index = async (req, res) => {
   const params = req.query
-  index(params, req, res)
+  await userService.index(params, req, res)
 }
 
-const createUser = async (req, res) => {
+const create = async (req, res) => {
   const params = req.body
   try {
-    await validate(params, model)
-    await create(params, req, res)
+    validate(params, User)
+    await userService.create(params, req, res)
   } catch (err) {
-    res.status(400).send(err)
+    res.status(400).send('用户创建失败')
   }
 }
 
-const getUser = async (req, res) => {
-  const params = {id: req.params.id}
-  show(params, req, res)
+const show = async (req, res) => {
+  const params = req.params
+  try {
+    validate(params, User)
+    await userService.show(params, req, res)
+  } catch (err) {
+    res.status(400).send('用户详情获取失败')
+  }
 }
 
-const putUser = async (req, res) => {
-  const updateUser = Object.assign({updated_at: new Date()}, req.body)
+const update = async (req, res) => {
   const params = Object.assign(req.body, req.params)
-  update(updateUser, params, req, res)
+  try {
+    validate(params, User)
+    await userService.update(params, req, res)
+  } catch (err) {
+    res.status(400).send('用户更新错误')
+  }
 }
 
-const delUser = async (req, res) => {
-  destroy(req, res)
+const destroy = async (req, res) => {
+  const params = req.params
+  try {
+    validate(params, User)
+    await userService.destroy(params, req, res)
+  } catch (err) {
+    res.status(400).send('用户删除错误')
+  }
 }
 
 export {
-  searchUser,
-  createUser,
-  getUser,
-  putUser,
-  delUser
+  index,
+  create,
+  show,
+  update,
+  destroy
 }

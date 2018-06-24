@@ -1,6 +1,5 @@
-import { knex } from '../knex/mysql'
+import { config, knex } from '../config/index'
 import { Response } from '../common/Response'
-import { firstSecret, lastSecret } from '../config'
 import jwt from 'jsonwebtoken'
 import moment from 'moment'
 import Base64 from 'crypto-js/enc-base64'
@@ -12,11 +11,11 @@ const createToken = (phone, password) => {
     sub: {phone, password},
     exp: moment().add(7, 'day').unix()
   }
-  return jwt.sign(payload, firstSecret)
+  return jwt.sign(payload, config.firstSecret)
 }
 
 const userLogin = async (params, req, res) => {
-  const saltPassword = firstSecret + params.password + lastSecret
+  const saltPassword = config.firstSecret + params.password + config.lastSecret
   const compare = Base64.stringify(SHA256(saltPassword))
   const account = await knex('account').where('phone', params.phone).first()
   if (account.password === compare) {

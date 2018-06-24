@@ -3,11 +3,10 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import morgan from 'morgan'
 import routes from './routes/index'
-import { knex } from './knex/mysql'
 import session from 'express-session'
 import cookieParser from 'cookie-parser'
 import conRedis from 'connect-redis'
-import { redis, firstSecret } from './config'
+import { config, knex } from './config/index'
 
 const RedisStore = conRedis(session)
 
@@ -19,7 +18,6 @@ setInterval(() => {
 }, 10 * 60000)
 
 const app = express()
-const port = process.env.PORT || 6000
 
 // bodyParser morgan
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -28,17 +26,17 @@ app.use(morgan('dev'))
 
 app.use(express.static('./public'))
 
-app.use(cookieParser(firstSecret))
+app.use(cookieParser(config.firstSecret))
 app.use(session({
   store: new RedisStore({
-    host: redis.host,
-    port: redis.port,
-    pass: redis.password
+    host: config.redis.host,
+    port: config.redis.port,
+    pass: config.redis.password
   }),
   cookie: { maxAge: 24 * 60 * 60 * 1000 },
   resave: true,
   saveUninitialized: true,
-  secret: firstSecret
+  secret: config.firstSecret
 }))
 
 app.use((req, res, next) => {
@@ -79,8 +77,8 @@ app.route('*').delete((req, res) => {
   })
 })
 
-app.listen(port)
+app.listen(config.port)
 
-console.log(`listening on port ${port}`)
+console.log(`listening on port ${config.port}`)
 
 export default app

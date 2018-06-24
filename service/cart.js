@@ -1,6 +1,7 @@
-import { knex } from '../knex/mysql'
+import { knex } from '../config/index'
 import { Response } from '../common/Response'
 import { getSortSql } from '../common/sort'
+import * as base from '../common/baseService'
 
 const index = async (params, req, res) => {
   const sql = await knex('cart').whereNull('deleted_at')
@@ -41,36 +42,24 @@ const create = async (params, req, res) => {
   await knex('cart').where({
     user_id: params.user_id,
     goods_id: params.goods_id
-  }).update({amount: knex.raw('??-??', ['amount', 'params.amount'])})
+  }).update({amount: knex.raw('?? + ??', ['amount', 'params.amount'])})
   res.json(Response('购物车操作成功', 1, params))
 }
 
 const show = async (params, req, res) => {
-  const cart = await knex('cart').where('id', params.id).whereNull('deleted_at').first()
-  if (!cart) {
-    return res.status(404).send(Response('没有找到该条记录', 0))
-  }
+  const cart = await base.show('cart', params)
   res.json(Response('记录查询成功', 1, cart))
 }
 
 const update = async (params, req, res) => {
-  const cart = await knex('cart').where('id', params.id).whereNull('deleted_at').first()
-  if (!cart) {
-    return res.status(400).send(Response('未找到该条记录', 0))
-  }
   const updateParams = Object.assign({updated_at: new Date()}, params)
-  const updateCart = await knex('cart').where('id', params.id).update(updateParams)
-  params.updateCart = updateCart
-  res.json(Response('购物车更新成功', 1, params))
+  const result = await base.update('cart', updateParams)
+  res.json(Response('购物车更新成功', 1, result))
 }
 
 const destroy = async (params, req, res) => {
-  const cart = await knex('cart').where('id', params.id).whereNull('deleted_at').first()
-  if (!cart) {
-    return res.status(400).send(Response('未找到该条记录', 0))
-  }
-  await knex('cart').where('id', params.id).update('deleted_at', new Date())
-  res.json(Response('删除成功', 1))
+  const result = await base.destroy('cart', params)
+  res.json(Response('删除成功', 1, result))
 }
 
 export {

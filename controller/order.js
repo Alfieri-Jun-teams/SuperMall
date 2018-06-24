@@ -1,41 +1,56 @@
-import { model } from '../models/order'
+import { Order } from '../models/order'
 import { validate } from '../common/validate'
-import { index, create, show, update, destroy } from '../service/order'
+import * as orderService from '../service/order'
 
-const searchOrder = async (req, res) => {
+const index = async (req, res) => {
   const params = req.query
-  index(params, req, res)
+  await orderService.index(params, req, res)
 }
 
-const createOrder = async (req, res) => {
+const create = async (req, res) => {
   const params = req.body
   try {
-    await validate(params, model)
-    await create(params, req, res)
+    validate(params, Order)
+    await orderService.create(params, req, res)
   } catch (err) {
-    res.status(400).send(err)
+    res.status(400).send('订单创建错误')
   }
 }
 
-const getOrder = async (req, res) => {
-  const params = req.params.id
-  show(params, req, res)
+const show = async (req, res) => {
+  const params = req.params
+  try {
+    validate(params, Order)
+    await orderService.show(params, req, res)
+  } catch (err) {
+    res.status(400).send('订单获取错误')
+  }
 }
 
-const putOrder = async (req, res) => {
+const update = async (req, res) => {
   const params = Object.assign(req.params, req.body)
-  update(params, req, res)
+  try {
+    validate(params, Order)
+    await orderService.update(params, req, res)
+  } catch (err) {
+    res.status(400).send('订单更新错误')
+  }
 }
 
-const destroyOrder = async (req, res) => {
-  const params = req.params.id
-  destroy(params, req, res)
+const destroy = async (req, res) => {
+  const params = req.params
+  try {
+    validate(params, Order)
+    await orderService.destroy(params, req, res)
+  } catch (err) {
+    res.status(400).send('订单删除错误')
+  }
 }
 
 export {
-  searchOrder,
-  createOrder,
-  getOrder,
-  putOrder,
-  destroyOrder
+  index,
+  create,
+  show,
+  update,
+  destroy
 }
