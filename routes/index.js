@@ -4,7 +4,7 @@ import { searchUser, createUser, getUser, putUser, delUser } from '../controller
 import { login } from '../controller/login'
 import * as cartController from '../controller/cart'
 import * as goodsController from '../controller/goods'
-import { searchOrder, createOrder, getOrder, putOrder, destroyOrder } from '../controller/order'
+import * as orderController from '../controller/order'
 
 const api = express.Router()
 
@@ -33,10 +33,10 @@ api.route('/Goods/:id').put(adminRole, goodsController.update)
 api.route('/Goods/:id').delete(adminRole, goodsController.destroy)
 
 // 订单
-api.route('/order').get(userRole, searchOrder)
-api.route('/order').post(userRole, createOrder)
-api.route('/order/:id').get(userRole, getOrder)
-api.route('/order/:id').put(userRole, putOrder)
-api.route('/order/:id').delete(userRole, destroyOrder)
+api.route('/order').get(userRole, orderController.index)
+api.route('/order').post(userRole, orderController.create)
+api.route('/order/:id').get(userRole, orderController.show)
+api.route('/order/:id').put(userRole, orderController.update)
+api.route('/order/:id').delete(userRole, orderController.destroy)
 
 export default api

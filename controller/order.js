@@ -1,41 +1,41 @@
 import { Order } from '../models/order'
 import { validate } from '../common/validate'
-import { index, create, show, update, destroy } from '../service/order'
+import * as orderService from '../service/order'
 
-const searchOrder = async (req, res) => {
+const index = async (req, res) => {
   const params = req.query
-  index(params, req, res)
+  orderService.index(params, req, res)
 }
 
-const createOrder = async (req, res) => {
+const create = async (req, res) => {
   const params = req.body
   try {
     validate(params, Order)
-    await create(params, req, res)
+    await orderService.create(params, req, res)
   } catch (err) {
     res.status(400).send(err)
   }
 }
 
-const getOrder = async (req, res) => {
+const show = async (req, res) => {
   const params = req.params.id
-  show(params, req, res)
+  orderService.show(params, req, res)
 }
 
-const putOrder = async (req, res) => {
+const update = async (req, res) => {
   const params = Object.assign(req.params, req.body)
-  update(params, req, res)
+  orderService.update(params, req, res)
 }
 
-const destroyOrder = async (req, res) => {
+const destroy = async (req, res) => {
   const params = req.params.id
-  destroy(params, req, res)
+  orderService.destroy(params, req, res)
 }
 
 export {
-  searchOrder,
-  createOrder,
-  getOrder,
-  putOrder,
-  destroyOrder
+  index,
+  create,
+  show,
+  update,
+  destroy
 }
