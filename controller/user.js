@@ -1,42 +1,43 @@
 import { User } from '../models/user'
 import { validate } from '../common/validate'
-import { index, create, show, update, destroy } from '../service/user'
+import * as userService from '../service/user'
 
 // 数据分页功能还未添加
-const searchUser = async (req, res) => {
+const index = async (req, res) => {
   const params = req.query
-  index(params, req, res)
+  await userService.index(params, req, res)
 }
 
-const createUser = async (req, res) => {
+const create = async (req, res) => {
   const params = req.body
   try {
     validate(params, User)
-    await create(params, req, res)
+    await userService.create(params, req, res)
   } catch (err) {
     res.status(400).send(err)
   }
 }
 
-const getUser = async (req, res) => {
-  const params = {id: req.params.id}
-  show(params, req, res)
+const show = async (req, res) => {
+  const params = req.params
+  await userService.show(params, req, res)
 }
 
-const putUser = async (req, res) => {
+const update = async (req, res) => {
   const updateUser = Object.assign({updated_at: new Date()}, req.body)
   const params = Object.assign(req.body, req.params)
-  update(updateUser, params, req, res)
+  await userService.update(updateUser, params, req, res)
 }
 
-const delUser = async (req, res) => {
-  destroy(req, res)
+const destroy = async (req, res) => {
+  const params = req.params
+  await userService.destroy(params, req, res)
 }
 
 export {
-  searchUser,
-  createUser,
-  getUser,
-  putUser,
-  delUser
+  index,
+  create,
+  show,
+  update,
+  destroy
 }
