@@ -1,41 +1,41 @@
 import { Goods } from '../models/goods'
 import { validate } from '../common/validate'
-import { index, create, show, update, destroy } from '../service/goods'
+import * as goodsService from '../service/goods'
 
-const searchGoods = async (req, res) => {
+const index = async (req, res) => {
   const params = req.query
-  index(params, req, res)
+  await goodsService.index(params, req, res)
 }
 
-const createGoods = async (req, res) => {
+const create = async (req, res) => {
   const params = req.body
   try {
     validate(params, Goods)
-    await create(params, req, res)
+    await goodsService.create(params, req, res)
   } catch (err) {
     res.status(400).send(err)
   }
 }
 
-const getGoods = async (req, res) => {
+const show = async (req, res) => {
   const params = req.params.id
-  show(params, req, res)
+  await goodsService.show(params, req, res)
 }
 
-const putGoods = async (req, res) => {
+const update = async (req, res) => {
   const params = Object.assign(req.params, req.body)
-  update(params, req, res)
+  await goodsService.update(params, req, res)
 }
 
-const destroyGoods = async (req, res) => {
+const destroy = async (req, res) => {
   const params = req.params.id
-  destroy(params, req, res)
+  await goodsService.destroy(params, req, res)
 }
 
 export {
-  searchGoods,
-  createGoods,
-  getGoods,
-  putGoods,
-  destroyGoods
+  index,
+  create,
+  show,
+  update,
+  destroy
 }
