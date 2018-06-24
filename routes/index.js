@@ -27,8 +27,8 @@ api.route('/cart/:id').delete(userRole, cartController.destroy)
 
 // 商品 (需要管理员权限)
 api.route('/goods').get(adminRole, goodsController.index)
-api.route('/goods').post(adminRole, goodsController.index)
-api.route('/Goods/:id').get(adminRole, goodsController.index)
+api.route('/goods').post(adminRole, goodsController.create)
+api.route('/Goods/:id').get(adminRole, goodsController.show)
 api.route('/Goods/:id').put(adminRole, goodsController.update)
 api.route('/Goods/:id').delete(adminRole, goodsController.destroy)
 
