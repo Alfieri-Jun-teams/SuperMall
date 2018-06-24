@@ -1,41 +1,53 @@
 import { Cart } from '../models/cart'
 import { validate } from '../common/validate'
-import { index, create, show, update, destroy } from '../service/cart'
+import * as cartService from '../service/cart'
 
-const searchCart = async (req, res) => {
+const index = async (req, res) => {
   const params = req.query
-  index(params, req, res)
+  await cartService.index(params, req, res)
 }
 
-const createCart = async (req, res) => {
+const create = async (req, res) => {
   const params = req.body
   try {
     validate(params, Cart)
-    await create(params, req, res)
+    await cartService.create(params, req, res)
   } catch (err) {
     res.status(400).send('购物车新建错误')
   }
 }
 
-const getCart = async (req, res) => {
-  const params = req.params.id
-  show(params, req, res)
+const show = async (req, res) => {
+  const params = req.params
+  try {
+    await cartService.show(params, req, res)
+  } catch (err) {
+    res.status(400).send('购物车不存在')
+  }
 }
 
-const putCart = async (req, res) => {
+const update = async (req, res) => {
   const params = Object.assign(req.body, req.params)
-  update(params, req, res)
+  try {
+    await cartService.update(params, req, res)
+  } catch (err) {
+    res.status(400).send('购物车更新失败')
+  }
 }
 
-const destroyCart = async (req, res) => {
-  const params = req.params.id
-  destroy(params, req, res)
+const destroy = async (req, res) => {
+  const params = req.params
+  try {
+    await cartService.destroy(params, req, res)
+  } catch (err) {
+    res.status(400).send('购物车删除失败')
+  }
 }
 
 export {
-  searchCart,
-  createCart,
-  getCart,
-  putCart,
-  destroyCart
+  index,
+  create,
+  show,
+  update,
+  destroy
 }

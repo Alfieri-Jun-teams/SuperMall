@@ -5,9 +5,7 @@ const exists = async (table, params) => {
     .where(params)
     .whereNull('deleted_at')
     .first()
-
   if (!entity) throw new Error('NO EXISTS')
-
   return entity
 }
 
@@ -30,7 +28,8 @@ const update = async (table, params) => {
   const updateResult = await knex(table)
     .where('id', params.id)
     .update(params)
-  return updateResult
+  params.updateResult = updateResult
+  return params
 }
 
 const destroy = async (table, params) => {
