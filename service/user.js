@@ -62,10 +62,6 @@ const update = async (params, req, res) => {
 }
 
 const destroy = async (params, req, res) => {
-  const account = req.session.account
-  if (account.user_type !== 'user' || account.user_id !== parseInt(req.params.id)) {
-    return res.status(400).send(Response('该账号不是用户权限', 0))
-  }
   const id = params.id
   const condition = {id: id}
   await base.exists('users', condition)
