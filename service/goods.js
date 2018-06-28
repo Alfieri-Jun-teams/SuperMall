@@ -18,13 +18,6 @@ const index = async (params, req, res) => {
 }
 
 const create = async (params, req, res) => {
-  const account = req.session.account
-  if (!account) {
-    return res.status(400).send(Response('请登录，谢谢', 0))
-  }
-  if (account.user_type !== 'admin') {
-    return res.status(400).send(Response('该账号没有权限', 0))
-  }
   const findGoods = await knex('goods').where('serial', params.serial).whereNull('deleted_at').first()
   if (findGoods) {
     return res.status(400).send(Response('该编号商品已存在', 0))

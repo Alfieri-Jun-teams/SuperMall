@@ -42,7 +42,7 @@ const create = async (params, req, res) => {
   await knex('cart').where({
     user_id: params.user_id,
     goods_id: params.goods_id
-  }).update({amount: knex.raw('?? + ??', ['amount', 'params.amount'])})
+  }).update({amount: knex.raw('?? + ?', ['amount', 'params.amount'])})
   res.json(Response('购物车操作成功', 1, params))
 }
 
