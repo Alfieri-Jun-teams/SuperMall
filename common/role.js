@@ -26,7 +26,18 @@ const needRole = (roles) => {
   }
 }
 
+const isAdmin = async (req, next) => {
+  if (!req.session) throw new Error('未登录')
+  let userType = req.session.account.user_type
+  if (userType === 'admin') {
+    await next()
+  } else {
+    throw new Error('权限不足')
+  }
+}
+
 export {
   roles,
-  needRole
+  needRole,
+  isAdmin
 }
